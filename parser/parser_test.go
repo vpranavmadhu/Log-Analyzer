@@ -103,3 +103,12 @@ func TestParseLogFile(t *testing.T) {
 	}
 
 }
+
+func TestParseLogWrongFile(t *testing.T) {
+	path := "worngpath"
+	_, err := ParseLogFile(path)
+
+	if err == nil {
+		t.Errorf("Expected error:%v, but got no error", err)
+	}
+}
