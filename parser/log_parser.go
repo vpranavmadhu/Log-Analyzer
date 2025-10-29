@@ -1,7 +1,10 @@
 package parser
 
 import (
+	"bufio"
 	"fmt"
+	"log/slog"
+	"os"
 	model "parser/model"
 	"regexp"
 	"time"
@@ -31,4 +34,27 @@ func ParseLog(s string) (*model.LogEntry, error) {
 		Request_id: matches[r.SubexpIndex("request_id")],
 		Message:    matches[r.SubexpIndex("msg")],
 	}, nil
+}
+
+func ParseLogFile(path string) ([]model.LogEntry, error) {
+	var entries []model.LogEntry
+
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	scanner := bufio.NewScanner(f)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		entry, err := ParseLog(line)
+		if err != nil {
+			slog.Error("Error while parsing : ", "error", err)
+			continue
+		}
+
+		entries = append(entries, *entry)
+	}
+	return entries, nil
 }
