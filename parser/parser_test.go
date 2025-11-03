@@ -24,8 +24,11 @@ func createTestFile(entry []string) (string, error) {
 func TestParseLogEntry(t *testing.T) {
 	entry := `2025-10-23 16:53:00.033 | WARN | auth | host=worker01 | request_id=req-nkc44l-7700 | msg="Connection to cache server established"`
 
-	got, _ := ParseLog(entry)
+	got, err := ParseLog(entry)
 	expectedTime, _ := time.Parse("2006-01-02 15:04:05.000", "2025-10-23 16:53:00.033")
+	if err != nil {
+		t.Fatalf("Unexpected parse error: %v", err)
+	}
 
 	if got.Time != expectedTime {
 		t.Errorf("Expected: %v, but got: %v", expectedTime, got.Time)
@@ -111,4 +114,15 @@ func TestParseLogWrongFile(t *testing.T) {
 	if err == nil {
 		t.Errorf("Expected error:%v, but got no error", err)
 	}
+}
+
+func TestParseLogWrongString(t *testing.T) {
+	entry := `wrong string`
+
+	_, err := ParseLog(entry)
+
+	if err == nil {
+		t.Errorf("Expected error when a wrong string is given for parsing")
+	}
+
 }

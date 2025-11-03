@@ -20,14 +20,18 @@ func ParseLog(s string) (*model.LogEntry, error) {
 	}
 	matches := r.FindStringSubmatch(s)
 
-	time, err := time.Parse("2006-01-02 15:04:05.000", matches[r.SubexpIndex("time")])
+	if matches == nil {
+		return nil, fmt.Errorf("log line did not match expected format: %s", s)
+	}
+
+	parsedTime, err := time.Parse("2006-01-02 15:04:05.000", matches[r.SubexpIndex("time")])
 	if err != nil {
 		return nil, fmt.Errorf("Error:%v", err)
 	}
 
 	return &model.LogEntry{
 		Log:        matches[0],
-		Time:       time,
+		Time:       parsedTime,
 		Level:      model.LogLevel(matches[r.SubexpIndex("level")]),
 		Component:  matches[r.SubexpIndex("component")],
 		Host:       matches[r.SubexpIndex("host")],
