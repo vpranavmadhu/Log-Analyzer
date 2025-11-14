@@ -7,7 +7,7 @@ import (
 	"log"
 	"log/slog"
 	"os"
-	"parser/segment"
+	"parser/pkg/segment"
 )
 
 func main() {

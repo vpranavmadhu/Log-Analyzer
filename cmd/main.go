@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
-	"parser/filter"
 	"parser/model"
+	"parser/pkg/filter"
 	"strings"
 	"time"
 )

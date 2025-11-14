@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"os"
 	"parser/model"
-	"parser/segment"
+	"parser/pkg/segment"
 
 	"github.com/jackc/pgx/v5"
 )
