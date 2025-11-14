@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"parser/model"
-	"parser/parser"
+	"parser/pkg/parser"
 	"path/filepath"
 	"sync"
 	"time"

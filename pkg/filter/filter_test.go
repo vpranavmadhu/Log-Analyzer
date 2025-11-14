@@ -3,7 +3,7 @@ package filter
 import (
 	"os"
 	"parser/model"
-	"parser/segment"
+	"parser/pkg/segment"
 	"path/filepath"
 	"strings"
 	"testing"
