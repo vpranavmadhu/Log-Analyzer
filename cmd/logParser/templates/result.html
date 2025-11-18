@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background: #f4f4f4;
+        }
+
+        .title {
+            font-size: 50px;
+            margin-bottom: 15px;
+            font-family: 'Times New Roman', Times, serif;
+            margin-left: 40%;
+
+        }
+        select {
+            padding: 5px;
+            margin-right: 10px; 
+        }
+
+
+        .filterdiv{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<h2 class="title">LOG ANALYZER</h2>
+
+<div class="filterdiv">
+    <form action="/" method="post">
+ <select name="level" multiple>
+    <option value="">-- Select Level --</option>
+    <option value="INFO">INFO</option>
+    <option value="DEBUG">DEBUG</option>
+    <option value="WARN">WARN</option>
+    <option value="ERROR">ERROR</option>
+</select>
+
+<select name="component" multiple>
+    <option value="">-- Select Component --</option>
+    <option value="worker">worker</option>
+    <option value="api-server">api-server</option>
+    <option value="cache">cache</option>
+    <option value="database">database</option>
+    <option value="auth">auth</option>
+</select>
+
+<select name="host" multiple>
+    <option value="">-- Select Host --</option>
+    <option value="web01">web01</option>
+    <option value="web02">web02</option>
+    <option value="cache01">cache01</option>
+    <option value="worker01">worker01</option>
+    <option value="db01">db01</option>
+
+
+</select>
+  <input type="text" placeholder="enter the RequestId" name="request_id">
+      <input type="text" placeholder="enter the DateTime" name="timestamp">
+
+
+ <button type="submit">search</button>
+
+</form>
+   
+</div>
+<div> <p>Total results: {{ .count }}</p></div>
+
+<table>
+    <tr>
+        <th>Timestamp</th>
+        <th>Level</th>
+        <th>Component</th>
+        <th>Host</th>
+        <th>Request ID</th>
+        <th>Message</th>
+    </tr>
+
+    {{ range .entries }}
+    <tr>
+        <td>{{ .TimeStamp }}</td>
+        <td>{{ .Level.Level }}</td>
+        <td>{{ .Component.Component }}</td>
+        <td>{{ .Host.Host }}</td>
+        <td>{{ .RequestId }}</td>
+        <td>{{ .Message }}</td>
+    </tr>
+    {{ else }}
+    <tr>
+        <td colspan="6" style="text-align:center">No logs found.</td>
+    </tr>
+    {{ end }}
+
+</table>
+
+</body>
+</html>
