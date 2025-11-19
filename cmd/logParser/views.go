@@ -54,11 +54,10 @@ func filterLogs(c *gin.Context) {
 	// Execute query
 	entries, err := models.Query(DB, queryParts)
 	if err != nil {
-		c.HTML(500, "result.html", gin.H{"error": err.Error()})
+		c.JSON(500, err)
 		return
 	}
-
-	c.HTML(200, "result.html", gin.H{
+	c.JSON(200, gin.H{
 		"entries": entries,
 		"count":   len(entries),
 	})
